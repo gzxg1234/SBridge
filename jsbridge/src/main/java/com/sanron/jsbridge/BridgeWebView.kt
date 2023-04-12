@@ -15,7 +15,7 @@ import java.util.concurrent.Executor
  * @author chenrong
  * @date 2023/4/5
  */
-class BridgeWebView : WebView {
+open class BridgeWebView : WebView {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
