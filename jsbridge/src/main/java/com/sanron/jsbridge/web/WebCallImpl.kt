@@ -14,30 +14,11 @@ import org.json.JSONObject
 class WebCallImpl(
     obj: String,
     method: String,
-    args: JSONObject?,
-    callbackIds: JSONArray?,
+    args: JSONArray,
     val webView: WebView,
     val jsPromptResult: JsPromptResult,
-) : WebCall(obj, method, args, callbackIds) {
+) : WebCall(obj, method, args) {
 
-    val webCallbackList: MutableList<WebCallback?> = mutableListOf()
-
-    init {
-        if (callbackIds != null && callbackIds.length() > 0) {
-            for (i in 0 until callbackIds.length()) {
-                val callId = callbackIds.optString(i, null)
-                if (!callId.isNullOrEmpty()) {
-                    webCallbackList.add(WebCallbackImpl(webView, callId))
-                } else {
-                    webCallbackList.add(null)
-                }
-            }
-        }
-    }
-
-    override fun getCallbacks(): List<WebCallback?> {
-        return webCallbackList
-    }
 
     override fun sendResult(isSuccess: Boolean, value: String?) {
         val result = JSONObject().run {

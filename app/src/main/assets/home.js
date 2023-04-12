@@ -18,6 +18,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default().use((element_ui__WEBPACK_IMPORTED_MODULE_1___default()));
+if (WebInterface) {
+  WebInterface.addEventListener = function (params, callback) {
+    window.addEventListener(params.event, function (event) {
+      callback(event, true);
+    });
+  };
+}
 new (vue__WEBPACK_IMPORTED_MODULE_0___default())({
   el: '#app',
   data: {
@@ -26,8 +33,13 @@ new (vue__WEBPACK_IMPORTED_MODULE_0___default())({
       b: "",
       result: "2"
     },
+    minusInfo: {
+      a: "",
+      b: "",
+      result: "2"
+    },
     userInfo: "",
-    progress: 2,
+    progress: 0,
     dlg: {
       title: "标题",
       message: "消息",
@@ -46,6 +58,10 @@ new (vue__WEBPACK_IMPORTED_MODULE_0___default())({
       });
       this.addInfo.result = result;
     },
+    minus: function minus() {
+      var result = Native.common.minus(this.minusInfo.a, this.minusInfo.b);
+      this.minusInfo.result = result;
+    },
     download: function download() {
       var _this = this;
       var result = Native.download.download({}, function (file) {
@@ -58,6 +74,19 @@ new (vue__WEBPACK_IMPORTED_MODULE_0___default())({
     },
     format: function format(percentage) {
       return percentage === 100 ? '完成' : "".concat(percentage, "%");
+    },
+    testAny: function testAny() {
+      Native.common.testAny("2019-10-22", new Date().getTime(), 1, 2, "kaskdasd", "asdas", 2.323, 3, function (e) {
+        console.log(e);
+      }, null, true, "false", function (e) {
+        console.log(e);
+      }, [22, 33, null], [2, 3, 4], {
+        name: "sanron",
+        age: 15
+      }, [{
+        name: "aq",
+        age: 123
+      }]);
     },
     showDlg: function showDlg() {
       var _this2 = this;
@@ -118,7 +147,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".hello {\r\n    padding: 16px;\r\n    width: 100%;\r\n}\r\n\r\n.func {\r\n    margin-top: 16px;\r\n}\r\n\r\n.add,\r\n.download,\r\n.show_confirm,\r\n.get_user {\r\n    margin-top: 16px;\r\n}\r\n\r\n.add .num {\r\n    width: 50px;\r\n}\r\n\r\n.add .invoke {\r\n    margin: 0 16px;\r\n}\r\n.show_confirm div{\r\n    margin-top: 8px;\r\n}\r\n.show_confirm .input{\r\n    width: 100px;\r\n    margin-left: 20px;\r\n}\n", "",{"version":3,"sources":["webpack://./src/home/home.css"],"names":[],"mappings":"AAAA;IACI,aAAa;IACb,WAAW;AACf;;AAEA;IACI,gBAAgB;AACpB;;AAEA;;;;IAII,gBAAgB;AACpB;;AAEA;IACI,WAAW;AACf;;AAEA;IACI,cAAc;AAClB;AACA;IACI,eAAe;AACnB;AACA;IACI,YAAY;IACZ,iBAAiB;AACrB","sourcesContent":[".hello {\r\n    padding: 16px;\r\n    width: 100%;\r\n}\r\n\r\n.func {\r\n    margin-top: 16px;\r\n}\r\n\r\n.add,\r\n.download,\r\n.show_confirm,\r\n.get_user {\r\n    margin-top: 16px;\r\n}\r\n\r\n.add .num {\r\n    width: 50px;\r\n}\r\n\r\n.add .invoke {\r\n    margin: 0 16px;\r\n}\r\n.show_confirm div{\r\n    margin-top: 8px;\r\n}\r\n.show_confirm .input{\r\n    width: 100px;\r\n    margin-left: 20px;\r\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".hello {\r\n    padding: 16px;\r\n    width: 100%;\r\n}\r\n\r\n.func {\r\n    margin-top: 16px;\r\n}\r\n\r\n.add,\r\n.minus,\r\n.download,\r\n.testAny,\r\n.show_confirm,\r\n.get_user {\r\n    margin-top: 16px;\r\n}\r\n\r\n.add .num,\r\n.minus .num {\r\n    width: 50px;\r\n}\r\n\r\n.add .invoke,\r\n.minus .invoke {\r\n    margin: 0 16px;\r\n}\r\n\r\n.show_confirm div {\r\n    margin-top: 8px;\r\n}\r\n\r\n.show_confirm .input {\r\n    width: 100px;\r\n    margin-left: 20px;\r\n}\n", "",{"version":3,"sources":["webpack://./src/home/home.css"],"names":[],"mappings":"AAAA;IACI,aAAa;IACb,WAAW;AACf;;AAEA;IACI,gBAAgB;AACpB;;AAEA;;;;;;IAMI,gBAAgB;AACpB;;AAEA;;IAEI,WAAW;AACf;;AAEA;;IAEI,cAAc;AAClB;;AAEA;IACI,eAAe;AACnB;;AAEA;IACI,YAAY;IACZ,iBAAiB;AACrB","sourcesContent":[".hello {\r\n    padding: 16px;\r\n    width: 100%;\r\n}\r\n\r\n.func {\r\n    margin-top: 16px;\r\n}\r\n\r\n.add,\r\n.minus,\r\n.download,\r\n.testAny,\r\n.show_confirm,\r\n.get_user {\r\n    margin-top: 16px;\r\n}\r\n\r\n.add .num,\r\n.minus .num {\r\n    width: 50px;\r\n}\r\n\r\n.add .invoke,\r\n.minus .invoke {\r\n    margin: 0 16px;\r\n}\r\n\r\n.show_confirm div {\r\n    margin-top: 8px;\r\n}\r\n\r\n.show_confirm .input {\r\n    width: 100px;\r\n    margin-left: 20px;\r\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -722,7 +751,7 @@ module.exports = Vue;
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("4f381ca9ff346af40b12")
+/******/ 		__webpack_require__.h = () => ("cae711fa72f767d26fff")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/global */

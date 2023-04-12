@@ -2,7 +2,6 @@ package com.sanron.jsbridge.client
 
 import android.graphics.Bitmap
 import android.net.http.SslError
-import android.os.Build
 import android.os.Message
 import android.view.KeyEvent
 import android.webkit.*
@@ -12,24 +11,24 @@ import android.webkit.*
  * @author chenrong
  * @date 2023/4/5
  */
-open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebViewClient() {
+open class WebViewClientWrapper(var real: WebViewClient? = null) : WebViewClient() {
 
     override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-        webViewClient?.let {
+        real?.let {
             return it.shouldOverrideUrlLoading(view, url)
         }
         return super.shouldOverrideUrlLoading(view, url)
     }
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        webViewClient?.let {
+        real?.let {
             return it.shouldOverrideUrlLoading(view, request)
         }
         return super.shouldOverrideUrlLoading(view, request)
     }
 
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-        webViewClient?.let {
+        real?.let {
             it.onPageStarted(view, url, favicon)
             return
         }
@@ -37,7 +36,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
     }
 
     override fun onPageFinished(view: WebView?, url: String?) {
-        webViewClient?.let {
+        real?.let {
             it.onPageFinished(view, url)
             return
         }
@@ -45,7 +44,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
     }
 
     override fun onLoadResource(view: WebView?, url: String?) {
-        webViewClient?.let {
+        real?.let {
             it.onLoadResource(view, url)
             return
         }
@@ -53,7 +52,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
     }
 
     override fun onPageCommitVisible(view: WebView?, url: String?) {
-        webViewClient?.let {
+        real?.let {
             it.onPageCommitVisible(view, url)
             return
         }
@@ -61,7 +60,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
     }
 
     override fun shouldInterceptRequest(view: WebView?, url: String?): WebResourceResponse? {
-        webViewClient?.let {
+        real?.let {
             return it.shouldInterceptRequest(view, url)
         }
         return super.shouldInterceptRequest(view, url)
@@ -71,14 +70,14 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
         view: WebView?,
         request: WebResourceRequest?
     ): WebResourceResponse? {
-        webViewClient?.let {
+        real?.let {
             return it.shouldInterceptRequest(view, request)
         }
         return super.shouldInterceptRequest(view, request)
     }
 
     override fun onTooManyRedirects(view: WebView?, cancelMsg: Message?, continueMsg: Message?) {
-        webViewClient?.let {
+        real?.let {
             it.onTooManyRedirects(view, cancelMsg, continueMsg)
             return
         }
@@ -91,7 +90,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
         description: String?,
         failingUrl: String?
     ) {
-        webViewClient?.let {
+        real?.let {
             it.onReceivedError(view, errorCode, description, failingUrl)
             return
         }
@@ -103,7 +102,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
         request: WebResourceRequest?,
         error: WebResourceError?
     ) {
-        webViewClient?.let {
+        real?.let {
             it.onReceivedError(view, request, error)
             return
         }
@@ -115,7 +114,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
         request: WebResourceRequest?,
         errorResponse: WebResourceResponse?
     ) {
-        webViewClient?.let {
+        real?.let {
             it.onReceivedHttpError(view, request, errorResponse)
             return
         }
@@ -123,7 +122,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
     }
 
     override fun onFormResubmission(view: WebView?, dontResend: Message?, resend: Message?) {
-        webViewClient?.let {
+        real?.let {
             it.onFormResubmission(view, dontResend, resend)
             return
         }
@@ -131,7 +130,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
     }
 
     override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
-        webViewClient?.let {
+        real?.let {
             it.doUpdateVisitedHistory(view, url, isReload)
             return
         }
@@ -139,7 +138,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
     }
 
     override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
-        webViewClient?.let {
+        real?.let {
             it.onReceivedSslError(view, handler, error)
             return
         }
@@ -147,7 +146,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
     }
 
     override fun onReceivedClientCertRequest(view: WebView?, request: ClientCertRequest?) {
-        webViewClient?.let {
+        real?.let {
             it.onReceivedClientCertRequest(view, request)
             return
         }
@@ -160,7 +159,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
         host: String?,
         realm: String?
     ) {
-        webViewClient?.let {
+        real?.let {
             it.onReceivedHttpAuthRequest(view, handler, host, realm)
             return
         }
@@ -168,14 +167,14 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
     }
 
     override fun shouldOverrideKeyEvent(view: WebView?, event: KeyEvent?): Boolean {
-        webViewClient?.let {
+        real?.let {
             return it.shouldOverrideKeyEvent(view, event)
         }
         return super.shouldOverrideKeyEvent(view, event)
     }
 
     override fun onUnhandledKeyEvent(view: WebView?, event: KeyEvent?) {
-        webViewClient?.let {
+        real?.let {
             it.onUnhandledKeyEvent(view, event)
             return
         }
@@ -183,7 +182,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
     }
 
     override fun onScaleChanged(view: WebView?, oldScale: Float, newScale: Float) {
-        webViewClient?.let {
+        real?.let {
             it.onScaleChanged(view, oldScale, newScale)
             return
         }
@@ -196,7 +195,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
         account: String?,
         args: String?
     ) {
-        webViewClient?.let {
+        real?.let {
             it.onReceivedLoginRequest(view, realm, account, args)
             return
         }
@@ -204,7 +203,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
     }
 
     override fun onRenderProcessGone(view: WebView?, detail: RenderProcessGoneDetail?): Boolean {
-        webViewClient?.let {
+        real?.let {
             return it.onRenderProcessGone(view, detail)
         }
         return super.onRenderProcessGone(view, detail)
@@ -216,7 +215,7 @@ open class WebViewClientWrapper(var webViewClient: WebViewClient? = null) : WebV
         threatType: Int,
         callback: SafeBrowsingResponse?
     ) {
-        webViewClient?.let {
+        real?.let {
             it.onSafeBrowsingHit(view, request, threatType, callback)
             return
         }

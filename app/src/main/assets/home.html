@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="native://jsbridge.js"></script>
         <meta charset="utf-8">
         <title></title>
         <meta name="viewport"
             content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,use-scalable=false">
-        <script src="native://jsbridge.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
         <script src="https://unpkg.com/element-ui/lib/index.js"></script>
@@ -28,8 +28,20 @@
                         <el-button class="invoke" @click="add" type="primary">=</el-button>
                         <span>{{addInfo.result}}</span>
                     </div>
+                    <div class="minus">
+                        <el-input class="num" v-model="minusInfo.a" placeholder=""></el-input>+
+                        <el-input class="num" v-model="minusInfo.b" placeholder=""></el-input>
+                        <el-button class="invoke" @click="minus" type="primary">=</el-button>
+                        <span>{{minusInfo.result}}</span>
+                    </div>
                 </div>
 
+                <div class="testAny">
+                    <el-tag>复杂参数测试</el-tag>
+                    <div class="testAny">
+                        <el-button class="invoke" type="primary" @click="testAny">调用</el-button>
+                    </div>
+                </div>
 
                 <div class="func">
                     <el-tag>下载模拟</el-tag>
@@ -45,7 +57,7 @@
                         <div>
                             标题<el-input class="input" v-model="dlg.title"></el-input>
                         </div>
-                        <div> 
+                        <div>
                             消息<el-input class="input" v-model="dlg.message"></el-input>
                         </div>
                         <div>

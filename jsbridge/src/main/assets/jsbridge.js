@@ -4,13 +4,13 @@
     }
 
     var CALL_URL = 'jsbridge://call_native?call=';
-    var CALLBACK_PREFIX = new Date().getTime() + "-";
+    var CALLBACK_ID_PREFIX = "CALLBACK_ID_" + new Date().getTime() + "_";
     var __native = {};
     __native.__callbackIdIndex = 1;
     __native.__callbacks = {};
 
     __native.__generateCallbackId = function() {
-        return CALLBACK_PREFIX +
+        return CALLBACK_ID_PREFIX +
             ((__native.__callbackIdIndex++) % Number.MAX_SAFE_INTEGER);
     }
 
@@ -24,26 +24,22 @@
             }
         };
     }
-
-    __native.__call = function(obj, method, args, ...callbacks) {
+    
+    __native.__call = function(obj, method, args) {
         var callbackIds = [];
-        if (callbacks) {
-            for (var i = 0; i < callbacks.length; i++) {
-                if (callbacks[i]) {
-                    var callId = __native.__generateCallbackId();
-                    callbackIds.push(callId);
-                    __native.__callbacks[callId] = __native.__generateCallback(callId, callbacks[i]);
-                } else {
-                    callbackIds.push(null);
-                }
+        for (var i = 0; i < args.length; i++) {
+            if (args[i] && typeof args[i] == 'function') {
+                var callId = __native.__generateCallbackId();
+                callbackIds.push(callId);
+                __native.__callbacks[callId] = __native.__generateCallback(callId, args[i]);
+                //替换为id
+                args[i] = callId;
             }
         }
         var result = prompt(CALL_URL + JSON.stringify({
             'method': method,
             'obj': obj,
-            'isAsync': true,
-            'args': args,
-            'callbackIds': callbackIds
+            'args': args
         }));
         var resultObj = JSON.parse(result);
         if (resultObj.isSuccess) {
@@ -72,18 +68,7 @@
                     get: function(objTarget, method) {
                         if (objTarget[method] == undefined) {
                             objTarget[method] = function(...args) {
-                                if (args && args.length > 0) {
-                                    if (typeof args[0] == 'object') {
-                                        return __native.__call(prop, method,
-                                            args[0], ...(args.slice(1)));
-                                    } else if (typeof args[0] == 'function') {
-                                        return __native.__call(prop, method,
-                                            null, ...args);
-                                    }
-                                } else {
-                                    return __native.__call(prop, method, null);
-                                }
-                                throw "wrong arguments";
+                                return __native.__call(prop, method, args || []);
                             }
                         }
                         return objTarget[method];
@@ -123,7 +108,7 @@
             Native.__Native.callbackFromWeb({
                 id: callbackId,
                 value: __toString(result),
-                keepAlive: keepAlive || false
+                keepAlive: keepAlive
             });
         }
         try {

@@ -9,6 +9,7 @@ import com.sanron.jsbridge.Logger
 import com.sanron.jsbridge.SBridge
 import com.sanron.jsbridge.web.WebCall
 import com.sanron.jsbridge.web.WebCallImpl
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -55,14 +56,12 @@ internal class SWebChromeClient(
             val json = JSONObject(callObj)
             val objName = json.optString("obj")
             val objMethod = json.optString("method")
-            val objArgs = json.optJSONObject("args")
-            val callbackIds = json.optJSONArray("callbackIds")
+            val objArgs = json.optJSONArray("args")?: JSONArray()
 
             return WebCallImpl(
                 objName,
                 objMethod,
                 objArgs,
-                callbackIds,
                 sBridge.webView,
                 jsPromptResult,
             )

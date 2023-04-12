@@ -11,8 +11,7 @@ import org.json.JSONObject
 abstract class WebCall(
     val obj: String,
     val method: String,
-    val args: JSONObject?,
-    val callbackIds: JSONArray?
+    val args: JSONArray
 ) {
     companion object {
         const val IS_SUCCESS = "isSuccess"
@@ -20,6 +19,4 @@ abstract class WebCall(
     }
 
     abstract fun sendResult(isSuccess: Boolean, value: String?)
-
-    abstract fun getCallbacks(): List<WebCallback?>
 }

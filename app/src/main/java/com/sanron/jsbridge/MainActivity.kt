@@ -9,6 +9,9 @@ import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.sanron.jsbridge.app.databinding.ActivityMainBinding
 import com.sanron.jsbridge.call.NativeCallback
+import com.sanron.jsbridge.obj.CommonObj
+import com.sanron.jsbridge.obj.DownloadObj
+import com.sanron.jsbridge.obj.UIObj
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +38,8 @@ class MainActivity : AppCompatActivity() {
         )
         binding.webview.addNativeObj("common", CommonObj())
         binding.webview.addNativeObj("ui", UIObj(this))
-
+        binding.webview.addConverter(GsonConverter())
+        binding.webview.addConverter(DateConverter())
         binding.webview.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
@@ -45,21 +49,11 @@ class MainActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 Logger.d("onPageFinished:" + url)
-                binding.webview.callWeb("addEvent", json(
+                binding.webview.callWebMethod("addEventListener", json(
                     "event" to "click"
                 ), object : NativeCallback {
                     override fun onNext(value: String?) {
-
-                    }
-
-                    override fun onCallError(errorMsg: String?) {
-                    }
-                })
-                binding.webview.callWeb("addEvent", json(
-                    "event" to "unload"
-                ), object : NativeCallback {
-                    override fun onNext(value: String?) {
-
+                        Logger.d("addEvent callback,${value}")
                     }
 
                     override fun onCallError(errorMsg: String?) {

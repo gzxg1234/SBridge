@@ -8,6 +8,7 @@ import org.json.JSONObject
  * @date 2023/4/9
  */
 
+
 fun json(vararg pairs: Pair<String, Any?>): JSONObject {
     return JSONObject().apply {
         pairs.forEach {
@@ -16,6 +17,8 @@ fun json(vararg pairs: Pair<String, Any?>): JSONObject {
     }
 }
 
+
 operator fun JSONObject.set(key: String, value: Any?): Any? {
     return this.putOpt(key, value)
 }
+

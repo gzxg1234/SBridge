@@ -1,10 +1,11 @@
-package com.sanron.jsbridge
+package com.sanron.jsbridge.obj
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.widget.Toast
 import com.sanron.jsbridge.annotation.NativeMethod
+import com.sanron.jsbridge.json
 import com.sanron.jsbridge.web.WebCallback
 import org.json.JSONObject
 

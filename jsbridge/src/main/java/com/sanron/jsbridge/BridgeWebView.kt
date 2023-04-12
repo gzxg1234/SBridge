@@ -1,14 +1,14 @@
 package com.sanron.jsbridge
 
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.sanron.jsbridge.call.NativeCallback
+import com.sanron.jsbridge.convert.ParameterConverter
 import org.json.JSONObject
-import java.util.concurrent.*
+import java.util.concurrent.Executor
 
 /**
  *
@@ -39,33 +39,34 @@ class BridgeWebView : WebView {
         privateBrowsing: Boolean
     ) : super(context, attrs, defStyleAttr, privateBrowsing)
 
-    private val mSBridge = SBridge(this)
+    private val bridge = SBridge(this)
 
-    fun callWeb(method: String, args: JSONObject?, nativeCallback: NativeCallback) {
-        mSBridge.callWeb(method, args, nativeCallback)
-    }
-
-    fun setWebCallExecutor(executor: Executor) {
-        mSBridge.setWebCallExecutor(executor)
-    }
-
-    override fun setWebViewClient(client: WebViewClient) {
-        mSBridge.setWebViewClient(client)
+    init {
+        super.setWebViewClient(bridge.getWebViewClientProxy())
+        super.setWebChromeClient(bridge.getWebChromeClientProxy())
     }
 
     override fun setWebChromeClient(client: WebChromeClient?) {
-        mSBridge.setWebChromeClient(client)
+        bridge.setWebChromeClient(client)
+    }
+
+    override fun setWebViewClient(client: WebViewClient) {
+        bridge.setWebViewClient(client)
     }
 
     fun addNativeObj(name: String, obj: Any) {
-        mSBridge.addNativeObj(name, obj)
+        bridge.addNativeObj(name, obj)
     }
 
-    fun removeNativeObj(name: String) {
-        mSBridge.removeNativeObj(name)
+    fun addConverter(converter: ParameterConverter<*>) {
+        bridge.addConverter(converter)
     }
 
-    fun setLoggerEnabled(enable: Boolean) {
-        Logger.enable = enable
+    fun callWebMethod(method: String, args: JSONObject, nativeCallback: NativeCallback) {
+        bridge.callWebMethod(method, args, nativeCallback)
+    }
+
+    fun setAsyncExecutor(executor: Executor) {
+        bridge.setAsyncExecutor(executor)
     }
 }

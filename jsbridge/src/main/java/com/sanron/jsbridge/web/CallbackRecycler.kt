@@ -1,6 +1,7 @@
 package com.sanron.jsbridge.web
 
 import android.webkit.WebView
+import com.sanron.jsbridge.BridgeUtils
 import com.sanron.jsbridge.BridgeUtils.evalJs
 import com.sanron.jsbridge.Logger
 import com.sanron.jsbridge.json
@@ -44,10 +45,13 @@ object CallbackRecycler {
                 jsBuilder.append("$JS_CALLBACK_METHOD(\"$id\",$resultString);")
             }
             Logger.d("WebCallbackImpl(${idList.joinToString(",")}) auto release")
-            webView.evalJs(jsBuilder.toString())
+            BridgeUtils.runOnMain {
+                webView.evalJs(jsBuilder.toString())
+            }
         }
     }
 
+    @Synchronized
     fun add(webCallbackImpl: WebCallbackImpl) {
         webCallbackRefList.add(
             WebCallbackRef(
